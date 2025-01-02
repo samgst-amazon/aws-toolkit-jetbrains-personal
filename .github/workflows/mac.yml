@@ -13,7 +13,7 @@ jobs:
   build:
     name: Mac
 
-    runs-on: macos-latest
+    runs-on: codebuild-jb-mac-runner-${{ github.run_id }}-${{ github.run_attempt }}
 
     steps:
     - uses: actions/checkout@v2
@@ -24,4 +24,4 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew check coverageReport -x :plugin-toolkit:jetbrains-rider:test --info --full-stacktrace --console plain
+      run: ./gradlew check coverageReport --info --full-stacktrace --console plain 
