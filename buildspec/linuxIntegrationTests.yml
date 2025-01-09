@@ -14,23 +14,11 @@ env:
 phases:
   install:
     commands:
-      - startDocker.sh
-      # login to DockerHub so we don't get throttled
-      - export DOCKER_USERNAME=`echo $DOCKER_HUB_TOKEN | jq -r '.username'`
-      - export DOCKER_PASSWORD=`echo $DOCKER_HUB_TOKEN | jq -r '.password'`
-      - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD || true
       # should probably be managed as an extension/rule in any tests that need a screen available
       - /usr/bin/Xvfb :22 -screen 0 1920x1080x24 &
 
   build:
     commands:
-      - |
-        if [ "$CODEARTIFACT_DOMAIN_NAME" ] && [ "$CODEARTIFACT_REPO_NAME" ]; then
-          CODEARTIFACT_URL=$(aws codeartifact get-repository-endpoint --domain $CODEARTIFACT_DOMAIN_NAME --repository $CODEARTIFACT_REPO_NAME --format maven --query repositoryEndpoint --output text)
-          # CODEARTIFACT_NUGET_URL=$(aws codeartifact get-repository-endpoint --domain $CODEARTIFACT_DOMAIN_NAME --repository $CODEARTIFACT_REPO_NAME --format nuget --query repositoryEndpoint --output text)
-          CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain $CODEARTIFACT_DOMAIN_NAME --query authorizationToken --output text --duration-seconds 3600)
-        fi
-
       - AWS_CONFIG_FILE=`mktemp`
       - |
         >$AWS_CONFIG_FILE echo "[default]
@@ -40,17 +28,6 @@ phases:
       - cat $AWS_CONFIG_FILE
       - chmod +x gradlew
       - DISPLAY=:22 ./gradlew -PideProfileName=$ALTERNATIVE_IDE_PROFILE_NAME integrationTest coverageReport -x :plugin-toolkit:jetbrains-rider:integrationTest --info --console plain
-      - |
-        if [ $(docker ps -q | wc -l) -gt 0 ]; then
-            echo 'Docker containers were not completely cleaned up!';
-            docker ps;
-            for container in $(docker ps -q); do
-                echo $container;
-                docker exec -i $container sh -c 'tail -n +1 /tmp/logs/*';
-            done;
-            
-            exit 1;
-        fi
       - VCS_COMMIT_ID="${CODEBUILD_RESOLVED_SOURCE_VERSION}"
       - CI_BUILD_URL=$(echo $CODEBUILD_BUILD_URL | sed 's/#/%23/g') # Encode `#` in the URL because otherwise the url is clipped in the Codecov.io site
       - CI_BUILD_ID="${CODEBUILD_BUILD_ID}"
