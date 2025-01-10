@@ -18,17 +18,7 @@ jobs:
     strategy:
       matrix:
         supported_versions: [ '2024.1', '2024.2', '2024.3' ]
-        include:
-          - os: ubuntu-latest
-            size: small
-          - os: ubuntu-latest
-            size: medium
-          - os: ubuntu-latest
-            size: large
-    runs-on:
-      - codebuild-jb-ubuntu-runner-${{ github.run_id }}-${{ github.run_attempt }}
-      - image: ${{ matrix.os }}
-      - instance-size:${{ matrix.size }}}
+    runs-on: codebuild-jb-ubuntu-runner-${{ github.run_id }}-${{ github.run_attempt }}
 
     steps:
       - uses: actions/checkout@v4
