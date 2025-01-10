@@ -18,7 +18,18 @@ jobs:
     strategy:
       matrix:
         supported_versions: [ '2024.1', '2024.2', '2024.3' ]
-    runs-on: codebuild-JB-ubuntu-runner-${{ github.run_id }}-${{ github.run_attempt }}
+        include:
+          - os: ubuntu-latest
+            size: small
+          - os: ubuntu-latest
+            size: medium
+          - os: ubuntu-latest
+            size: large
+    runs-on:
+      - codebuild-jb-ubuntu-runner-${{ github.run_id }}-${{ github.run_attempt }}
+      - image: ${{ matrix.os }}
+      - instance-size:${{ matrix.size }}}
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -107,6 +118,16 @@ jobs:
 
   generate_changelog:
     runs-on: codebuild-JB-ubuntu-runner-${{ github.run_id }}-${{ github.run_attempt }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            size: small
+          - os: ubuntu-latest
+            size: medium
+          - os: ubuntu-latest
+            size: large
+
     outputs:
       feature: ${{ steps.assign_output.outputs.feature }}
       tagname: ${{ steps.assign_output.outputs.tagname }}
