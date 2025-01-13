@@ -10,6 +10,7 @@ plugins {
     id("toolkit-git-secrets")
     id("toolkit-jacoco-report")
     id("org.jetbrains.gradle.plugin.idea-ext")
+    id("com.osacky.doctor") version "0.10.0"
 }
 
 allprojects {

@@ -7,12 +7,6 @@ cache:
     - '/home/codebuild-user/.gradle/wrapper/**/*'
     - '.gradle/**/*'
 
-    # CodeBuild local cache directory
-    - '/codebuild/local-cache/**/*'
-
-     # If you're using Maven as well (since this is a JetBrains plugin project)
-    - '/home/codebuild-user/.m2/**/*'
-
 env:
   variables:
     CI: true
@@ -31,13 +25,6 @@ phases:
       - export AWS_CODEARTIFACT_NUGET_LOGFILE=/tmp/testArtifacts/codeArtifactNuGet.log
       # (CVE-2022-24765) fatal: detected dubious ownership in repository
       - su codebuild-user -c "git config --global --add safe.directory \"$CODEBUILD_SRC_DIR\""
-
-  pre_build:
-    commands:
-      - echo "Checking cache directories..."
-      - ls -la /codebuild/local-cache || true
-      - ls -la /home/codebuild-user/.gradle || true
-      - ls -la .gradle || true
 
   build:
     commands:
