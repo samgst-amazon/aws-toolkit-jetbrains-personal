@@ -2,10 +2,8 @@ version: 0.2
 
 cache:
   paths:
-    # Gradle specific caches
-    - '/home/codebuild-user/.gradle/caches/**/*'
+    #    - '/root/.gradle/caches/**/*'
     - '/home/codebuild-user/.gradle/wrapper/**/*'
-    - '.gradle/**/*'
 
 env:
   variables:
@@ -37,7 +35,6 @@ phases:
         fi
 
       - chmod +x gradlew
-      - #/home/gradle ... -- not under root because these are being run by "codebuild-user"
       - su codebuild-user -c "./gradlew -PideProfileName=$ALTERNATIVE_IDE_PROFILE_NAME check coverageReport --info --console plain --continue --scan --watch-fs"
       - su codebuild-user -c "./gradlew -PideProfileName=$ALTERNATIVE_IDE_PROFILE_NAME buildPlugin"
       - VCS_COMMIT_ID="${CODEBUILD_RESOLVED_SOURCE_VERSION}"
