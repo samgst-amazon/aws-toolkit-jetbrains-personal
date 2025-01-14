@@ -60,7 +60,7 @@ if (regionEnv.isPresent && bucketEnv.isPresent && prefixEnv.isPresent) {
     // TODO: can we serve a remote cache out of CloudFront instead? https://docs.gradle.org/8.1/userguide/build_cache.html#sec:build_cache_configure_remote
     buildCache {
         local {
-            isEnabled = false
+            isEnabled = true
         }
 
         remote<com.github.burrunan.s3cache.AwsS3BuildCache> {
