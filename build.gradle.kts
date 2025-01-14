@@ -5,12 +5,12 @@ import org.jetbrains.gradle.ext.TaskTriggersConfig
 import software.aws.toolkits.gradle.changelog.tasks.GenerateGithubChangeLog
 
 plugins {
+    id("com.osacky.doctor") version "0.10.0"
     id("base")
     id("toolkit-changelog")
     id("toolkit-git-secrets")
     id("toolkit-jacoco-report")
     id("org.jetbrains.gradle.plugin.idea-ext")
-    id("com.osacky.doctor") version "0.10.0"
 }
 
 allprojects {
