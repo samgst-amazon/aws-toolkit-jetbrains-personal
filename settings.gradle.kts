@@ -69,8 +69,6 @@ if (regionEnv.isPresent && bucketEnv.isPresent && prefixEnv.isPresent) {
             prefix = prefixEnv.get()
             isPush = true
             lookupDefaultAwsCredentials = true
-
-            useForRebuilds = false
         }
     }
 }
