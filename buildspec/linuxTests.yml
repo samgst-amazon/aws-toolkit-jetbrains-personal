@@ -39,7 +39,6 @@ phases:
       - su codebuild-user -c "cd ~/checkout-1"
       - su codebuild-user -c "./gradlew clean --quiet"
       - su codebuild-user -c "./gradlew -PideProfileName=$ALTERNATIVE_IDE_PROFILE_NAME check coverageReport --info --console plain --continue --scan"
-      - su codebuild-user -c "cd ~/checkout-2"
       - su codebuild-user -c "./gradlew clean --quiet"
       - su codebuild-user -c "./gradlew -PideProfileName=$ALTERNATIVE_IDE_PROFILE_NAME check coverageReport --info --console plain --continue --scan"
       #- su codebuild-user -c "./gradlew -PideProfileName=$ALTERNATIVE_IDE_PROFILE_NAME check coverageReport --info --console plain --continue --scan"
