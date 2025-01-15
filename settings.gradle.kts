@@ -62,14 +62,6 @@ if (regionEnv.isPresent && bucketEnv.isPresent && prefixEnv.isPresent) {
         local {
             isEnabled = false
         }
-
-        remote<com.github.burrunan.s3cache.AwsS3BuildCache> {
-            region = regionEnv.get()
-            bucket = bucketEnv.get()
-            prefix = prefixEnv.get()
-            isPush = true
-            lookupDefaultAwsCredentials = true
-        }
     }
 }
 
