@@ -27,6 +27,15 @@ phases:
   build:
     commands:
       - |
+        run_gc() {
+          for pid in $(jps -l | grep -v Jps | cut -d ' ' -f 1); do
+            echo "Running GC on process $pid"
+            jcmd $pid GC.run
+          done
+        }
+        run_gc
+
+      - |
         if [ "$CODEARTIFACT_DOMAIN_NAME" ] && [ "$CODEARTIFACT_REPO_NAME" ]; then
           CODEARTIFACT_URL=$(aws codeartifact get-repository-endpoint --domain $CODEARTIFACT_DOMAIN_NAME --repository $CODEARTIFACT_REPO_NAME --format maven --query repositoryEndpoint --output text)
           # CODEARTIFACT_NUGET_URL=$(aws codeartifact get-repository-endpoint --domain $CODEARTIFACT_DOMAIN_NAME --repository $CODEARTIFACT_REPO_NAME --format nuget --query repositoryEndpoint --output text)
