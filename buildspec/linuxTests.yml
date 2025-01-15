@@ -2,7 +2,7 @@ version: 0.2
 
 cache:
   paths:
-    - '/home/codebuild-user/.gradle/caches/**/*'
+    #'/home/codebuild-user/.gradle/caches/**/*'
     - '/home/codebuild-user/.gradle/wrapper/**/*'
 
 env:
