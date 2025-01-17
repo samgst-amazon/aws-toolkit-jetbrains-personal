@@ -3,7 +3,7 @@ version: 0.2
 cache:
   paths:
     #'/home/codebuild-user/.gradle/caches/**/*'
-    - '/home/codebuild-user/.gradlew/rapper/**/*'
+    - '/home/codebuild-user/.gradlew/wrapper/**/*'
 
 env:
   variables:
@@ -35,8 +35,8 @@ phases:
         fi
 
       - chmod +x gradlew
-      - ls -laR /home/codebuild-user/.gradle
       - su codebuild-user -c "./gradlew -PideProfileName=$ALTERNATIVE_IDE_PROFILE_NAME check coverageReport --info --console verbose --continue --scan"
+      - ls -laR /home/codebuild-user/.gradle
       - su codebuild-user -c "./gradlew -PideProfileName=$ALTERNATIVE_IDE_PROFILE_NAME buildPlugin"
       - VCS_COMMIT_ID="${CODEBUILD_RESOLVED_SOURCE_VERSION}"
       - CI_BUILD_URL=$(echo $CODEBUILD_BUILD_URL | sed 's/#/%23/g') # Encode `#` in the URL because otherwise the url is clipped in the Codecov.io site
@@ -47,7 +47,6 @@ phases:
 
   post_build:
     commands:
-      - ls -laR /home/codebuild-user/.gradle
       - BUILD_ARTIFACTS="/tmp/buildArtifacts"
       - TEST_ARTIFACTS="/tmp/testArtifacts"
       - mkdir -p $TEST_ARTIFACTS/test-reports
