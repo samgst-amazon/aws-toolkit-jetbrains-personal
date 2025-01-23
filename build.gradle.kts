@@ -72,6 +72,10 @@ tasks.coverageReport {
 
 allprojects {
     tasks.configureEach {
+        doFirst {
+            println("Task ${this.name} inputs: ${inputs.files.files}")
+            println("Task ${this.name} outputs: ${outputs.files.files}")
+        }
         if (this is JavaForkOptions) {
             jvmArgs("-XX:ErrorFile=${rootProject.file("build/reports").absolutePath}/hs_err_pid%p.log")
             if (System.getProperty("os.name").contains("Windows")) {
