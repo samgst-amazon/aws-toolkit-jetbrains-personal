@@ -86,4 +86,22 @@ allprojects {
         isPreserveFileTimestamps = false
         isReproducibleFileOrder = true
     }
+
+    normalization {
+        runtimeClasspath {
+            metaInf {
+                ignoreAttribute("*-Time")
+                ignoreAttribute("*-Date")
+                ignoreAttribute("*-By")
+                ignoreAttribute("Build-*")
+                ignore("META-INF/*.SF")
+                ignore("META-INF/*.DSA")
+                ignore("META-INF/*.RSA")
+                ignore("META-INF/LICENSE*")
+                ignore("META-INF/NOTICE*")
+                ignore("META-INF/MANIFEST.MF")
+            }
+        }
+    }
+
 }
