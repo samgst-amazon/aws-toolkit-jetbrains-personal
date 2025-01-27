@@ -110,6 +110,12 @@ allprojects {
 
     normalization {
         runtimeClasspath {
+
+            val codebuildSrcDir = System.getenv("CODEBUILD_SRC_DIR")
+            if (codebuildSrcDir != null) {
+                ignore(codebuildSrcDir)
+            }
+
             metaInf {
                 ignoreAttribute("*-Time")
                 ignoreAttribute("*-Date")
