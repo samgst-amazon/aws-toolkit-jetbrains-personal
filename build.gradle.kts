@@ -72,27 +72,6 @@ tasks.coverageReport {
 
 allprojects {
     tasks.configureEach {
-        doFirst {
-            if (inputs.hasInputs) {  // Using getHasInputs() from TaskInputs interface
-                val taskName = this.path
-                val taskType = this.javaClass.simpleName
-
-                // Print file inputs
-                inputs.files.files.takeIf { it.isNotEmpty() }?.let {
-                    println("Task $taskName ($taskType) file inputs: $it")
-                }
-
-                // Print property inputs
-                inputs.properties.takeIf { it.isNotEmpty() }?.let {
-                    println("Task $taskName ($taskType) property inputs: $it")
-                }
-
-                // Print dir inputs (these are actually part of files, but we can filter directories)
-                inputs.files.files.filter { it.isDirectory }.takeIf { it.isNotEmpty() }?.let {
-                    println("Task $taskName ($taskType) directory inputs: $it")
-                }
-            }
-        }
         if (this is JavaForkOptions) {
             jvmArgs("-XX:ErrorFile=${rootProject.file("build/reports").absolutePath}/hs_err_pid%p.log")
             if (System.getProperty("os.name").contains("Windows")) {
