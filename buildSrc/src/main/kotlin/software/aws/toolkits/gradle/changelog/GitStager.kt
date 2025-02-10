@@ -7,7 +7,6 @@ import org.eclipse.jgit.api.Git
 import java.io.File
 
 class GitStager(private val rootDirectory: File) {
-    @Transient
     private val git = Git.open(rootDirectory)
 
     fun stage(file: File) {
